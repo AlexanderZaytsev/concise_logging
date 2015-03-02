@@ -27,7 +27,7 @@ module ConciseLogging
         ip: format("%-15s", ip),
         method: format_method(format("%-6s", method)),
         status: format_status(status),
-        time: color(app, CYAN) + ' + ' + color(db, CYAN),
+        time: color(app, CYAN) + '+' + color(db, CYAN),
         path: path
       )
       message << " user_id=#{color(user_id, GREEN)}" if user_id.present?
