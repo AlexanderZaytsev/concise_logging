@@ -30,7 +30,7 @@ module ConciseLogging
         time: color("app:#{app}ms db:#{db}ms", CYAN),
         path: path
       )
-      message << " user_id=#{color(user_id, GREEN)}" if user_id?
+      message << " user_id=#{color(user_id, GREEN)}" if user_id.present?
       message << " redirect_to=#{location}" if location.present?
       message << " params=#{params}" if params.present?
       message << " #{color(exception_details, RED)}" if exception_details.present?
