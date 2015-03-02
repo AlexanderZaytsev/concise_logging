@@ -10,8 +10,9 @@ module ConciseLogging
       payload = event.payload
       param_method = payload[:params]["_method"]
       method = param_method ? param_method.upcase : payload[:method]
+      user_id = payload[:user_id]
       status, exception_details = compute_status(payload)
-      path = payload[:path].to_s.gsub(/\?.*/, "")
+      path = "http://lookastic.com" + payload[:path].to_s.gsub(/\?.*/, "")
       params = payload[:params].except(*INTERNAL_PARAMS)
 
       ip = Thread.current[:logged_ip]
@@ -22,16 +23,18 @@ module ConciseLogging
       db = payload[:db_runtime].to_i
 
       message = format(
-        "%{method} %{status} %{ip} %{path}",
+        "%{method} %{status} %{time} %{path} %{ip}",
         ip: format("%-15s", ip),
         method: format_method(format("%-6s", method)),
         status: format_status(status),
+        time: color("app:#{app}ms db:#{db}ms", CYAN),
         path: path
       )
+      message << " user_id=#{color(user_id, GREEN)}" if user_id?
       message << " redirect_to=#{location}" if location.present?
-      message << " parameters=#{params}" if params.present?
+      message << " params=#{params}" if params.present?
       message << " #{color(exception_details, RED)}" if exception_details.present?
-      message << " (app:#{app}ms db:#{db}ms)"
+      message << " "
 
       logger.warn message
     end
