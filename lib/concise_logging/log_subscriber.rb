@@ -31,8 +31,8 @@ module ConciseLogging
         path: path
       )
       message << " user_id=#{color(user_id, GREEN)}" if user_id.present?
+      message << " #{params}" if params.present?
       message << " redirect_to=#{location}" if location.present?
-      message << " params=#{params}" if params.present?
       message << " #{color(exception_details, RED)}" if exception_details.present?
       message << " "
 
