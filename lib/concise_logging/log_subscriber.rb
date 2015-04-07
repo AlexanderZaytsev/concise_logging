@@ -21,13 +21,14 @@ module ConciseLogging
 
       app = payload[:view_runtime].to_i
       db = payload[:db_runtime].to_i
+      total_runtime = app + db
 
       message = format(
         "%{method} %{status} %{time} %{path} %{ip}",
         ip: format("%-15s", ip),
         method: format_method(format("%-6s", method)),
         status: format_status(status),
-        time: color(app, CYAN) + '+' + color(db, CYAN),
+        time: format_runtime(total_runtime) + '=' + format_runtime(app) + '+' + format_runtime(db),
         path: path
       )
       message << " user_id=#{color(user_id, GREEN)}" if user_id.present?
@@ -58,6 +59,18 @@ module ConciseLogging
         method
       else
         color(method, CYAN)
+      end
+    end
+    
+    def format_runtime(runtime)
+      if runtime <= 150
+        color(runtime, GREEN)
+      elsif runtime <= 300
+        color(runtime, CYAN)
+      elsif runtime <= 700
+        color(runtime, YELLOW)
+      else
+        color(runtime, RED)
       end
     end
 
