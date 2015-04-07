@@ -82,7 +82,7 @@ module ConciseLogging
       elsif status >= 300
         color(status, YELLOW)
       else
-        color(status, GREEN)
+        color(status, CYAN)
       end
     end
   end
