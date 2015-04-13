@@ -34,6 +34,7 @@ module ConciseLogging
       message << " #{params}" if params.present?
       message << " redirect_to=#{location}" if location.present?
       message << " #{color(exception_details, RED)}" if exception_details.present?
+      message << " #{Time.now}"
       message << " "
 
       logger.warn message
