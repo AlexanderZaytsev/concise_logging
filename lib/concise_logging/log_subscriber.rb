@@ -12,7 +12,7 @@ module ConciseLogging
       method = param_method ? param_method.upcase : payload[:method]
       user_id = payload[:user_id]
       status, exception_details = compute_status(payload)
-      path = "http://lookastic.com" + payload[:path].to_s.gsub(/\?.*/, "")
+      path = "http://#{payload[:host]}" + payload[:path].to_s.gsub(/\?.*/, "")
       params = payload[:params].except(*INTERNAL_PARAMS)
 
       ip = Thread.current[:logged_ip]
