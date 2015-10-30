@@ -55,21 +55,15 @@ module ConciseLogging
     end
 
     def format_method(method)
-      if method.strip == "GET"
-        method
-      else
-        color(method, CYAN)
-      end
+      method
     end
     
     def format_runtime(app, db)
       total = app + db
       string = "#{total} = #{app}+#{db}"
-      if total <= 150
+      if total <= 250
         color(string, GREEN)
-      elsif total <= 300
-        color(string, CYAN)
-      elsif total <= 700
+      elsif total <= 750
         color(string, YELLOW)
       else
         color(string, RED)
@@ -77,14 +71,7 @@ module ConciseLogging
     end
 
     def format_status(status)
-      status = status.to_i
-      if status >= 400
-        color(status, RED)
-      elsif status >= 300
-        color(status, YELLOW)
-      else
-        color(status, CYAN)
-      end
+      color(status, CYAN)
     end
   end
 end
