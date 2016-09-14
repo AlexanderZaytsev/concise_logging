@@ -61,9 +61,9 @@ module ConciseLogging
     def format_runtime(app, db)
       total = app + db
       string = "#{total} = #{app}+#{db}"
-      if total <= 250
+      if total <= 200
         color(string, GREEN)
-      elsif total <= 750
+      elsif total <= 500
         color(string, YELLOW)
       else
         color(string, RED)
